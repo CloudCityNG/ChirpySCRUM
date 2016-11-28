@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue: emarjay</title>
+    <style>
+        .active{
+            background: #eee;
+        }
+        /* always present */
+        .expand-transition {
+            transition: all .3s ease;
+            height: 30px;
+            padding: 10px;
+            background-color: #eee;
+            overflow: hidden;
+        }
+        /* .expand-enter defines the starting state for entering */
+        /* .expand-leave defines the ending state for leaving */
+        .expand-enter, .expand-leave {
+            height: 0;
+            padding: 0 10px;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="a">
+    <input type="text" v-model="message" number>
+    {{message}}
+    <div :style="activeRowStyle" :class="{ 'active' : active }">
+        <ul :transition="transitionName">
+            <li :transition="transitionName" v-for="item in items">
+                {{ $index+1 }} {{ item.message }}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script src="node_modules/vue/dist/vue.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
