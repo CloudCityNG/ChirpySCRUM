@@ -2,9 +2,8 @@
 namespace App\Services\TodoApi\Features;
 
 use App\Domains\Http\Jobs\RespondWithJsonJob;
-use App\Domains\Todo\Jobs\SaveTaskToDBJob;
-use App\Domains\Todo\Jobs\ValidateStoreTodoInputJob;
-use Carbon\Carbon;
+use App\Domains\TodoApi\Jobs\SaveTaskToDBJob;
+use App\Domains\TodoApi\Jobs\ValidateStoreTodoInputJob;
 use Lucid\Foundation\Feature;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class StoreTodoFeature extends Feature
 
         $input  = $this->run(ValidateStoreTodoInputJob::class, compact('input'));
 
-        unset($input['due_date']);
+//        unset($input['due_date']);
 
         $result = $this->run(SaveTaskToDBJob::class, compact('input'));
 

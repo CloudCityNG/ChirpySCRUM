@@ -13,6 +13,9 @@
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
 
+    <!-- Icons -->
+    <link rel="stylesheet" href="/assets/ionicons-2/css/ionicons.css">
+
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -48,7 +51,7 @@
                 <!-- Dropdown Trigger -->
                     <li>
                         <a class="dropdown-button" href="#" data-hover="true" data-beloworigin="true" data-activates="navbar-user-dropdown">
-                            {{ Auth::user()->name }} <span class="caret"></span>
+                            {{ Auth::user()->name }} <i class="ion-chevron-down"></i>
                         </a>
                     </li>
                 @endif

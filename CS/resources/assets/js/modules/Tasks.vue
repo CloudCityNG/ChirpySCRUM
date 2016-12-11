@@ -3,13 +3,12 @@
         <div class="header activator">
             <h5>Tasks</h5>
             <div class="actions">
-                <b class="pointer" title="Create Tasks" v-if="!showCreate" @click="showCreate = true">+</b>
-                <b class="pointer" v-else title="Close Create Task" @click="showCreate = false">x</b>
-                <i class="ion-android-add-circle"></i>
+                <i class="pointer icon ion-android-add-circle red-text" title="Create Tasks" v-if="!showCreate" @click="showCreate = true"></i>
+                <i class="pointer ion-close-circled red-text icon" v-else title="Close Create Task" @click="showCreate = false"></i>
             </div>
         </div>
         <div class="card-content">
-            <create-tasks v-if="showCreate"></create-tasks>
+            <create-tasks @closed="cancelCreate" :show="showCreate"></create-tasks>
             <list-tasks></list-tasks>
         </div>
     </div>
@@ -21,6 +20,14 @@
         {
             return{
                 showCreate  : false,
+            }
+        },
+
+        methods:
+        {
+            cancelCreate()
+            {
+                this.showCreate = !this.showCreate;
             }
         }
     }

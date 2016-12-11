@@ -1,32 +1,36 @@
 <template>
-    <form class="row" @submit.prevent="storeTask">
+    <form v-show="show" class="row" @submit.prevent="storeTask">
         <div class="col m12 input-field">
-            <input id="create-task-subject" type="text" v-model="input.subject">
-            <label for="create-task-subject">Subject</label>
+            <input id="create-task-subject" class="validate" :class="errors.subject ? 'invalid': '' " type="text" v-model="input.subject">
+            <label for="create-task-subject" :class="errors.subject ? 'active': ''" :data-error="errors.subject ? errors.subject[0]: ''">Subject</label>
         </div>
 
         <div class="col m6 input-field">
-            <input type="text"  v-model="input.status" id="create-task-status">
-            <label for="create-task-status">Status</label>
+            <select id="create-task-status" class="browser-default validate" :class="errors.status ? 'invalid': '' "  v-model="input.status">
+                <option :value="status" v-for="status in statusOption">{{ status }}</option>
+            </select>
+            <!--<input type="text"  v-model="input.status" id="create-task-status">-->
+            <label for="create-task-status" class="active" :data-error="errors.status ? errors.status[0]: ''">Status</label>
         </div>
 
         <div class="col m3 input-field">
-            <input type="text"  v-model="input.priority" id="create-task-priority">
-            <label for="create-task-priority">Priority</label>
+            <input type="number" max="5" v-model="input.priority" :class="errors.priority ? 'invalid': '' " id="create-task-priority">
+            <label for="create-task-priority" :class="errors.priority ? 'active': ''" :data-error="errors.priority ? errors.priority[0]: ''">Priority</label>
         </div>
 
         <div class="col m3 input-field">
-            <input type="text" class="datepicker" v-model="input.dueDate" id="create-task-due">
-            <label for="create-task-due">Due Date</label>
+            <input type="date" class="datepicker" :class="errors.due_date ? 'invalid': '' " v-model="input.due_date" id="create-task-due">
+            <label for="create-task-due" :class="errors.due_date ? 'active': ''" :data-error="errors.due_date ? errors.due_date[0]: ''">Due Date</label>
         </div>
 
         <div class="col m12 input-field">
-            <textarea class="materialize-textarea" v-model="input.description" id="create-task-desc"></textarea>
-            <label for="create-task-desc">Description</label>
+            <textarea class="materialize-textarea" :class="errors.description ? 'invalid': '' " v-model="input.description" id="create-task-desc"></textarea>
+            <label for="create-task-desc" :class="errors.description ? 'active': ''" :data-error="errors.description ? errors.description[0]: ''">Description</label>
         </div>
 
         <div class="col m12 right-align">
-            <button type="submit" class="btn">Add Task</button>
+            <button type="submit" class="btn waves-effect waves-light">Add Task</button>
+            <button type="reset" class="btn red waves-effect waves-light" @click="cancel">Cancel</button>
         </div>
     </form>
 </template>
@@ -34,19 +38,46 @@
 <script>
     import {store} from '../store'
     export default {
+        props :
+        {
+            show : false
+        },
+
+        computed :
+        {
+            errorMsg()
+            {
+                return store.state.task.errors['create']['msg'];
+            },
+
+            errors()
+            {
+                return store.state.task.errors['create']['errors'];
+            }
+        },
+
         data()
         {
             return {
                 statusOption : ['New', 'On Going', 'Completed', 'Rework'],
                 input   :
                 {
-                    subject     : '',
+                    subject     : null,
                     status      : 'New',
-                    priority    : '',
-                    due_date    : '',//not camel case cos of laravel create method
-                    description : ''
+                    priority    : null,
+                    due_date    : null,//not camel case cos of laravel create method
+                    description : null
                 }
             }
+        },
+
+        ready()
+        {
+            $('select').material_select();
+            $('.datepicker').pickadate({
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 50 // Creates a dropdown of 15 years to control year
+            });
         },
 
         methods :
@@ -58,11 +89,17 @@
 
             storeTask(event)
             {
-                this.$http.post('/api/v1/tasks/store', this.input).then(response =>
-                {
-                    store.commit('prependTask', response.data.data);
-                    $(event.target).trigger('reset');
-                })
+                store.dispatch({
+                    type    : 'storeTask',
+                    vm      : $(event.target),
+                    input   : this.input,
+                });
+            },
+
+            cancel()
+            {
+                this.show = !this.show;
+                this.$emit('closed');
             }
         }
     }

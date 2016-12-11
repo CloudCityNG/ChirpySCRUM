@@ -20,8 +20,8 @@ class TodoController extends Controller
     public function index($chunkSize  = null, $offset = null)
     {
         return $this->serve(ListTasksFeature::class, [
-            'chunkSize'     => (int) $chunkSize,
-            'offset'  => (int) $offset
+            'chunkSize' => (int) $chunkSize,
+            'offset'    => (int) $offset
         ]);
     }
 
@@ -86,6 +86,6 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        $this->serve(DeleteTaskFeature::class, compact('id'));
+        return $this->serve(DeleteTaskFeature::class, compact('id'));
     }
 }

@@ -3,7 +3,7 @@
 
 /**
  * From here, you may begin adding components to
- * the application, or feel free to tweak this setup for your needs.
+ * the application.
  */
 
 Vue.component('example', require('./components/Example.vue'));
