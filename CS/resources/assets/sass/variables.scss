@@ -17,7 +17,10 @@ $brand-warning: #cbb956;
 $brand-danger:  #bf5329;
 
 // Typography
-$font-family-sans-serif: "Raleway", sans-serif;
+$font-path: '../assets/fonts';
+$raleway-regular: $font-path+ '/Raleway/Raleway-Regular.ttf';
+$slabo-regular: $font-path+ '/Slabo_27px/Slabo27px-Regular.ttf';
+$font-family-sans-serif: "Raleway", "Slabo", sans-serif;
 $font-size-base: 14px;
 $line-height-base: 1.6;
 $text-color: #636b6f;

@@ -12,5 +12,6 @@
         <div class="col m10">
             <task-module></task-module>
         </div>
+        <edit-tasks></edit-tasks>
     </div>
 @endsection

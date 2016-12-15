@@ -19,7 +19,12 @@ Route::group(['prefix' => 'api/v1', 'middleware' => 'api'], function() {
 
         // The controllers live in src/Services/TodoApi/Http/Controllers
 
-        Route::get('/{chunkSize?}/{paginateIndex?}', [
+        Route::get('/{id}', [
+            'uses'  => "{$controller}show",
+            'as'    => 'tasks.index'
+        ]);
+
+        Route::get('/', [
             'uses'  => "{$controller}index",
             'as'    => 'tasks.index'
         ]);

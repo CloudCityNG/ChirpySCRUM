@@ -10,8 +10,8 @@
             </div>
             <div class="task-action align-right">
                 <i class="icon ion-chatbubble"></i>
-                <i class="icon ion-android-create"></i>
-                <i class="icon ion-android-delete"></i>
+                <i class="pointer icon ion-android-create"></i>
+                <i @click="deleteTask(task.id)" class="pointer icon ion-android-delete"></i>
             </div>
         </div>
         <div v-if="task.id == openedId">
@@ -104,7 +104,7 @@
 
     .task .task-name{
         display: inline-block;
-        width: 81.7%;
+        width: 81%;
     }
 
     .task .task-name label{

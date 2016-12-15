@@ -3,6 +3,7 @@ namespace App\Services\TodoApi\Http\Controllers;
 
 use App\Services\TodoApi\Features\DeleteTaskFeature;
 use App\Services\TodoApi\Features\ListTasksFeature;
+use App\Services\TodoApi\Features\ShowTodoFeature;
 use App\Services\TodoApi\Features\StoreTodoFeature;
 use Illuminate\Http\Request;
 use Lucid\Foundation\Http\Controller;
@@ -12,16 +13,17 @@ class TodoController extends Controller
     /**
      * Display a listing of tasks.
      *
-     * @param int|null $chunkSize
-     * @param int|null $offset
-     *
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     *
      */
-    public function index($chunkSize  = null, $offset = null)
+    public function index(Request $request)
     {
+        $request    = $request->only('chunkSize', 'offset');
+
         return $this->serve(ListTasksFeature::class, [
-            'chunkSize' => (int) $chunkSize,
-            'offset'    => (int) $offset
+            'chunkSize' => isset($request['chunkSize']) ? (int) $request['chunkSize'] : null,
+            'offset'    => isset($request['offset']) ? (int) $request['offset'] : null
         ]);
     }
 
@@ -52,7 +54,7 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->serve(ShowTodoFeature::class, compact('id'));
     }
 
     /**

@@ -8,10 +8,14 @@ let errors = [];
 errors['create']            = [];
 errors['create']['errors']  = '';
 errors['create']['msg']     = '';
+errors['edit']              = [];
+errors['edit']['errors']    = '';
+errors['edit']['msg']       = '';
 
 export const task = {
     state: {
         all : [],
+        editData: [],
         errors,
     },
     mutations: {
